@@ -1,6 +1,6 @@
 const state = {
   user: {
-      nickname: 'test'
+      nickname: ''
   }
 }
 

@@ -1,5 +1,9 @@
 <template>
-  <div class="window-container">       
+  <div class="window-container">  
+    <div class="header"> 
+      <button class="log-out-btn"
+              @click="attemptLogout"> Log out </button>
+    </div>         
     <div class="top"
           id="messageList"
           ref="message-list">
@@ -31,6 +35,7 @@
 
 <script>
 import MessageBody from './ChatWindow/MessageBody'
+import { logoutUser } from '@/utils/auth'
 
 export default {
   name: 'ChatWindow',
@@ -54,7 +59,22 @@ export default {
   },
   methods: {
     sendMessage: function() {
-        this.$store.dispatch('chat/sendMessage');
+      try {
+        this.$socket.emit('client_message', this.messageToBeSent);
+      }
+      finally {
+        this.$store.dispatch('chat/updateMessageToBeSent', ''); 
+      }
+    },
+    attemptLogout: function() {
+      logoutUser().then( resp => {
+        if(resp.error) {
+          this.$store.dispatch('UpdateErrorMessage', resp.msg);
+        } else {
+          this.$store.dispatch('ResetErrorMessage');
+          this.$router.push('/');
+        }
+      })
     }
   }
 }
@@ -68,6 +88,25 @@ export default {
   padding: 5px;
   display: flex; 
   flex-direction: column; 
+}
+
+.window-container >.header {
+  width: 100%;
+  background: white;
+  margin-bottom: 5px;
+}
+
+.header >.log-out-btn {
+  width: 100%;
+  color: white;
+  background-color: #fb406c;
+  border:none;
+  cursor: pointer;
+}
+
+.header >.log-out-btn:hover {
+    opacity: 0.6;
+    transition: 0.3s;
 }
 
 .window-container >.top {

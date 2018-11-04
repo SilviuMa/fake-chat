@@ -14,9 +14,12 @@ export default new Router({
       name: 'Login',
       component: Login,
       beforeEnter: (to, from, next) => {
-        checkLoggedIn() ?
+        checkLoggedIn()
+        .then( response => {
+          response ?
           window.location.href = "#/chat" :
-          next();        
+          next(); 
+        });        
       }
     },
     {
@@ -24,9 +27,12 @@ export default new Router({
       name: 'ChatRoom',
       component: ChatRoom,
       beforeEnter: (to, from, next) => {
-        checkLoggedIn() ?
-          next() :        
+        checkLoggedIn()
+        .then( response => {
+          response ?
+          next() : 
           window.location.href = "/";
+        });   
       }
     },
   ]

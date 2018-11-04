@@ -1,4 +1,3 @@
-import { getLoggedInUserName } from '../utils/auth';
 
 const state = {
     messageToBeSent: '',
@@ -30,13 +29,18 @@ const state = {
     updateMessageToBeSent (state, message) {
         state.messageToBeSent = message;
     },
-    sendMessage (state) {    
-        state.messageList = [ ...state.messageList,
-                              {
-                                body : state.messageToBeSent,
-                                name : getLoggedInUserName()
-                                } ];
-        state.messageToBeSent = '';
+    SOCKET_SERVER_MESSAGE (state, message) {  
+        try {  
+          let messageInfo = JSON.parse(message);
+
+          state.messageList = [ ...state.messageList,
+                                {
+                                  body : messageInfo.message,
+                                  name : messageInfo.name
+                                  } ];
+        }
+        finally {
+        }
     },
   }
   

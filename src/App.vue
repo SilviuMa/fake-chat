@@ -1,12 +1,21 @@
 <template>
-   <div id="app"> 
+   <div id="app">
+     <ErrorMessage v-if="errorMessage"
+                    :errorMessage="errorMessage"/> 
      <router-view></router-view>
    </div>
 </template>
 
 <script>
 export default {
-  name: 'app'
+  name: 'app',
+  computed: {
+    errorMessage: {
+      get() { 
+        return this.$store.getters['errorMessage']; 
+      },
+    },
+  }
 }
 </script>
 

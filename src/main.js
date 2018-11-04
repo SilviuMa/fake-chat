@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import VueYouTubeEmbed from 'vue-youtube-embed';
+import VueSocketio from 'vue-socket.io';
 
 import App from './App.vue';
 import { store } from './store/store';
@@ -8,7 +8,7 @@ import router from './router';
 
 Vue.config.productionTip = false
 
-Vue.use(VueYouTubeEmbed)
+Vue.use(VueSocketio, `//${window.location.host}`, store);
 
 new Vue({
   router,

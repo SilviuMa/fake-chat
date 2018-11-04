@@ -17,8 +17,14 @@ export default {
   name: 'Login',
   methods: {
     attemptLogin: function() {
-      loginUser(this.$store.getters['login/getUserInfo']);
-      this.$router.push('chat');
+      loginUser(this.nickname).then( resp => {
+        if(resp.error) {
+          this.$store.dispatch('UpdateErrorMessage', resp.msg);
+        } else {
+          this.$store.dispatch('ResetErrorMessage');
+          this.$router.push('chat');
+        }
+      });
     }
   },
   computed: {
