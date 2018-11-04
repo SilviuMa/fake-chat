@@ -24,3 +24,8 @@ npm run test
 ```
 npm run lint
 ```
+
+### Runs server after build
+...
+node index.js
+...
